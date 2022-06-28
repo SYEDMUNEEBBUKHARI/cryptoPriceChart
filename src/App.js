@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect, useRef } from "react";
+import { Routes, Route } from "react-router-dom";
+
+import Home from "./components/Home/home";
+import Market from "./containers/Market";
+
+import Web3 from "web3/dist/web3.min.js";
+
+import "./App.css";
+import fetchAbi from "./artifacts/uniSwapRouter.abi";
+// Dan's useInterval hook https://overreacted.io/making-setinterval-declarative-with-react-hooks/
+
+//install web3-eth-contract
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div style={{ height: "90vh" }}>
+        <Routes>
+          <Route exact path="/" element={<Market />} />
+           
+        </Routes>
+        <Home />
+      </div>
     </div>
   );
 }
-
 export default App;
