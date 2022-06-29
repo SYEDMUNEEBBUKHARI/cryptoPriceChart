@@ -18,7 +18,7 @@ const Market = () => {
 
   const filteredData = [
     {
-      date: "2022-06-26T13:15:01.253Z",
+      date: "2022-06-26T13:15:01.253Z", 
       price: 21393.316898311943,
     },
     {

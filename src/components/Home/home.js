@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import Web3 from "web3/dist/web3.min.js";
+// import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
 
+import Web3 from "web3/dist/web3.min.js";
 import fetchAbi from "../../artifacts/uniSwapRouter.abi";
+import { db } from "../../utils/firebaseApp";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 // Dan's useInterval hook https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 
 //install web3-eth-contract
@@ -31,9 +34,47 @@ function useInterval(callback, delay) {
   );
 }
 function Home() {
-  const findPricesAndInsertInDb = () => {
-    
-  }
+  const findPricesAndInsertInDb = async (data, tokens) => {
+    const filterData = data.slice(1, data.length);
+    for (let token in tokens) {
+      const date = new Date().toLocaleString("en-US", { timeZone: "UTC" });
+
+      console.log("price", data[0] / filterData[token]);
+      // console.log("date", ref);
+      const priceDetails = 
+        {
+          price: data[0] / filterData[token],
+          date,
+          tokenName: tokens[token],
+        }
+      
+
+      try {
+        await addDoc(
+          collection(
+            db,
+            "pricecharts"
+          ),
+          priceDetails
+        );
+      } catch (err) {
+        alert(err);
+      }
+      
+      // const ref = db.database.ref("pricecharts");
+      // const newPostKey = push(child(ref(db), "pricecharts")).key;
+      // console.log(ref);
+      // const c = collection(firebase, "pricecharts");
+      // console.log('c',c)
+      // let d = await getDocs(c);
+
+      // d.set(priceDetails).then(function () {
+      //   console.log("Document Added ");
+      // });
+      // const cityList = d.docs.map((doc) => doc.data());
+      // console.log("===;", cityList);
+    }
+  };
   const setAbi = async (data) => {
     let abi = await data.then((data) => data);
     return abi;
@@ -84,7 +125,9 @@ function Home() {
         ])
         .call();
       console.log("data===.", data);
+      let tokens = ["oracle", "profit"];
       //find prices and insert in db
+      findPricesAndInsertInDb(data, tokens);
     })();
   }, delay);
 
