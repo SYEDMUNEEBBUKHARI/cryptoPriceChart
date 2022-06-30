@@ -87,7 +87,6 @@ const Market = () => {
       <Grid container justify="center">
         <Grid ref={gridItemRef} item xs={12} md={10} lg={8}>
           <SC.MarketHeader>
-            <SC.Title>{"bitcoin"}</SC.Title>
 
             <TimeFilterButtons
               value={timeFilter}
