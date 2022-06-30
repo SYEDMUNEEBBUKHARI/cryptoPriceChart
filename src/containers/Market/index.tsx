@@ -1,24 +1,28 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Grid, Snackbar, SnackbarCloseReason } from "@material-ui/core";
 import { Skeleton, Alert } from "@material-ui/lab";
 import useAxios from "axios-hooks";
 import PrimaryChart from "../../components/PrimaryChart";
 import SecondaryChart from "../../components/SecondaryChart";
 import TimeFilterButtons from "../../components/TimeFilterButtons";
+import tokenContext from "../../context/tokenContext";
 import { SC } from "./styled";
 import { DataProps } from "interfaces/DataProps";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import { useQueryParams, StringParam } from "use-query-params";
 
 const Market = () => {
-  console.log("world");
+  const { tokenData } = useContext(tokenContext);
+  const [tokenPrices, setTokenPrices] = useState("");
+  console.log("world", tokenData);
+
   // const {
   //   filteredDataState: { filteredData },
   // } = React.useContext(MarketContext);
 
   const filteredData = [
     {
-      date: "2022-06-26T13:15:01.253Z", 
+      date: "2022-06-26T13:15:01.253Z",
       price: 21393.316898311943,
     },
     {

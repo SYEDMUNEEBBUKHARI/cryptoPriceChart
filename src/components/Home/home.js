@@ -41,26 +41,18 @@ function Home() {
 
       console.log("price", data[0] / filterData[token]);
       // console.log("date", ref);
-      const priceDetails = 
-        {
-          price: data[0] / filterData[token],
-          date,
-          tokenName: tokens[token],
-        }
-      
+      const priceDetails = {
+        price: data[0] / filterData[token],
+        date,
+        tokenName: tokens[token],
+      };
 
       try {
-        await addDoc(
-          collection(
-            db,
-            "pricecharts"
-          ),
-          priceDetails
-        );
+        await addDoc(collection(db, "pricecharts"), priceDetails);
       } catch (err) {
         alert(err);
       }
-      
+
       // const ref = db.database.ref("pricecharts");
       // const newPostKey = push(child(ref(db), "pricecharts")).key;
       // console.log(ref);
@@ -68,11 +60,12 @@ function Home() {
       // console.log('c',c)
       // let d = await getDocs(c);
 
+      // const cityList = d.docs.map((doc) => doc.data());
+      // console.log("===;", cityList);
+
       // d.set(priceDetails).then(function () {
       //   console.log("Document Added ");
       // });
-      // const cityList = d.docs.map((doc) => doc.data());
-      // console.log("===;", cityList);
     }
   };
   const setAbi = async (data) => {

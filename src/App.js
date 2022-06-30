@@ -10,6 +10,7 @@ import {
   query,
   orderBy,
   onSnapshot,
+  getDocs,
 } from "firebase/firestore";
 import { db } from "./utils/firebaseApp";
 
@@ -18,13 +19,42 @@ import fetchAbi from "./artifacts/uniSwapRouter.abi";
 // Dan's useInterval hook https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 
 //install web3-eth-contract
+import tokenContext from "./context/tokenContext";
 
 function App() {
-  const [data, setData] = useState(null);
+  const [tokenData, setData] = useState("");
   useEffect(() => {
+    (async function () {
+      const q = query(
+        collection(db, "pricecharts"),
+        where("tokenName", "==", "oracle"),
+        orderBy("date", "desc", true)
+      );
+      onSnapshot(q, (querySnapshot) => {
+        setData(
+          querySnapshot.docs.map((doc) => ({
+            date: doc.data().date,
+            price: doc.data().price
+          }))
+        );
+      });
+    })();
+
+    // const c = collection(db, "pricecharts").where("tokenName", "==", "oracle");
+    // let d = await getDocs(c);
+    // const cityList = d.docs.map((doc) => doc.data());
+    // console.log("===;", cityList);
+  }, []);
+
+  useEffect(() => {
+   
+  }, [tokenData]);
+
+  const pickProfitToken = () => {
     const q = query(
       collection(db, "pricecharts"),
-      where("tokenName", "==", "oracle")
+      where("tokenName", "==", "profit"),
+      orderBy("date", "desc", true)
     );
     onSnapshot(q, (querySnapshot) => {
       setData(
@@ -34,19 +64,18 @@ function App() {
         }))
       );
     });
-  }, []);
-
-  useEffect(() => {}, [data]);
+  };
   return (
-    <div>
-      {console.log("data", data)}
-      <div style={{ height: "90vh" }}>
-        <Routes>
-          <Route exact path="/" element={<Market />} />
-        </Routes>
-        <Home />
+    <tokenContext.Provider value={tokenData.length > 0 && {tokenData}}>
+      <div>
+        <div style={{ height: "90vh" }}>
+          <Routes>
+            <Route exact path="/" element={<Market />} />
+          </Routes>
+          <Home />
+        </div>
       </div>
-    </div>
+    </tokenContext.Provider>
   );
 }
 export default App;
