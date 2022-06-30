@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ToggleButtonGroup, ToggleButton } from "@material-ui/lab";
 import useOptionalControlledState from "hooks/useOptionalControlledState";
 import { TimeFilters } from "enums/TimeFilters";
-
+import tokenContext from "../../context/tokenContext";
 export const TimePeriod: {
   [key: string]: TimeFilters;
 } = {
@@ -24,7 +24,7 @@ export const TimeFilterButtons: React.FC<{
     initialValue: TimeFilters.P1D,
     onChange,
   });
-
+  const { daySwitch } = useContext(tokenContext);
   return (
     <ToggleButtonGroup
       size="small"
@@ -32,6 +32,7 @@ export const TimeFilterButtons: React.FC<{
       exclusive
       onChange={(e, v) => {
         console.log("v", v);
+        daySwitch(v);
         setFilter(v);
       }}
       color="primary"

@@ -107,7 +107,6 @@ function Home() {
         JSON.parse(fetchAbiInterface),
         "0x73E93D9657E6f32203f900fe1BD81179a5bf6Ce4"
       );
-      console.log(contract);
       const ORACLE_ADDRESS = "0xd7565b16b65376e2ddb6c71e7971c7185a7ff3ff";
       const WSB_ADDRESS = "0x02f0826ef6ad107cfc861152b32b52fd11bab9ed";
       const data = await contract.methods
